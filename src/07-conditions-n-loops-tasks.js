@@ -329,8 +329,26 @@ function getDigitalRoot(num) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const map = {
+    '(': ')',
+    '[': ']',
+    '{': '}',
+    '<': '>',
+  };
+  const closing = Object.values(map);
+  const stack = [];
+
+  for (let i = 0; i < str.length; i += 1) {
+    const char = str[i];
+    if (map[char]) {
+      stack.push(char);
+    } else if (closing.includes(char) && char !== map[stack.pop()]) {
+      return false;
+    }
+  }
+
+  return !stack.length;
 }
 
 
@@ -354,8 +372,15 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  const remainders = [];
+  let number = num;
+  while (number > 0) {
+    const remainder = number % n;
+    remainders.push(remainder);
+    number = Math.floor(number / n);
+  }
+  return remainders.reverse().join('');
 }
 
 
@@ -371,8 +396,19 @@ function toNaryString(/* num, n */) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  const splitPathes = pathes.map((el) => el.split('/'));
+  const commonPathes = [];
+
+  for (let i = 0; i < splitPathes[0].length; i += 1) {
+    const commonPath = Array.from(new Set(splitPathes.map((el) => el[i])));
+    if (commonPath.length === 1) {
+      commonPathes.push(commonPath);
+    } else {
+      break;
+    }
+  }
+  return commonPathes.length > 0 ? `${commonPathes.join('/')}/` : '';
 }
 
 
@@ -394,8 +430,19 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const result = [];
+  for (let i = 0; i < m1.length; i += 1) {
+    result[i] = [];
+    for (let j = 0; j < m2[0].length; j += 1) {
+      let sum = 0;
+      for (let k = 0; k < m1[0].length; k += 1) {
+        sum += m1[i][k] * m2[k][j];
+      }
+      result[i][j] = sum;
+    }
+  }
+  return result;
 }
 
 
